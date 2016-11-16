@@ -27,22 +27,28 @@ class SynonymizeAPI(Resource):
 It returns word2vec 'synonyms' of the term in the form '["REPORTER","INTERVIEWER"]'. 
                 """
 
-    def get_synonyms(self, word, match_n = 20):
+    def get_synonyms(self, word, match_n=5,threshold=0.7):
         word_upper = word.upper()
         word_title = word[0].capitalize() + word[1:].lower()
         word_lower = word.lower()
-    
-        word_combo = [word_upper, word_title, word_lower]
-    
-        results_list = []
+
+        word_combo = [word_upper,word_title,word_lower]
+
+   #results_list = []
+        results_dict={}
         for w in word_combo:
             try:
-                results = prebuilt.most_similar(positive=[w], topn = match_n)
-                results_list.extend([i[0].upper() for i in results])
-                #print [i[1] for i in results]
+               results = prebuilt.most_similar(positive=[w], topn = match_n)
+           #results_list.extend([i[0].upper() for i in results])
+          # results_list.extend([i[0].upper() for i in results if i[1] >= threshold])
+          # print [i[1] for i in results]
+          #actual word will be the key and the value will be the similarity for the dictionary.
+               for i in results:
+                   if i[1]>=threshold:
+                       results_dict[i[0]]=i[1]         
             except KeyError:
-                pass
-        return results_list
+               pass
+        return sorted(results_dict.keys(),key=results_dict.get,reverse=True)[0:match_n]
     
     def post(self):
         args = self.reqparse.parse_args()

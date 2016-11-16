@@ -18,5 +18,5 @@ api.add_resource(DictionaryLookupAPI, '/lookup_dictionary')
 
 if __name__ == '__main__':
     http_server = HTTPServer(WSGIContainer(app))
-    http_server.listen(5000)
+    http_server.listen(5001)
     IOLoop.instance().start()

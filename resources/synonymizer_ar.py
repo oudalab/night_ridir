@@ -27,17 +27,19 @@ class SynonymizeArAPI(Resource):
                 It returns word2vec 'synonyms' of the term in the form '["REPORTER","INTERVIEWER"]'
                 """
 
-    def get_synonyms(self, word, match_n = 10):
+    def get_synonyms(self, word, match_n = 5,threshold=0.7):
         word = re.sub(" ", "_", word)
         word_combo = [word] #[word_upper, word_title, word_lower]
         results_list = []
         for w in word_combo:
             try:
                 results = prebuilt.most_similar(positive=[w], topn = match_n)
-                results_list.extend([i[0].upper() for i in results])
+                for i in results:
+                    if i[1]>=threshold:
+                        results_dict[i[0]]=i[1]
             except KeyError:
                 pass
-        return list(set(results_list))
+        sorted(results_dict.keys(),key=results_dict.get,reverse=True)[0:match_n]
     
     def post(self):
         args = self.reqparse.parse_args()
@@ -63,4 +65,3 @@ class SynonymizeArAPI(Resource):
             print "Word length is 0 or greater than 2"
             syns = []
         return syns
-
