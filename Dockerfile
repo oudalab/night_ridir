@@ -10,10 +10,6 @@ RUN apt-get install -y python-pip
 COPY requirements.txt /tmp/
 RUN pip install -r /tmp/requirements.txt
 RUN pip install git+https://github.com/openeventdata/petrarch2/
-RUN apt-get install -y git &&\
-    apt-get install -y curl &&\
-    apt-get install -y htop &&\
-    apt-get install -y vim &&\
 WORKDIR /app
 RUN wget https://s3.amazonaws.com/mordecai-geo/GoogleNews-vectors-negative300.bin.gz
 RUN wget https://s3.amazonaws.com/ahalterman-textdata/wiki_ar_word2vec.model

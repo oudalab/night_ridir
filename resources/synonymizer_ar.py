@@ -27,7 +27,7 @@ class SynonymizeArAPI(Resource):
                 It returns word2vec 'synonyms' of the term in the form '["REPORTER","INTERVIEWER"]'
                 """
 
-    def get_synonyms(self, word, match_n = 5,threshold=0.7):
+    def get_synonyms_ar(self, word, match_n = 5,threshold=0.7):
         word = re.sub(" ", "_", word)
         word_combo = [word] #[word_upper, word_title, word_lower]
         results_list = []
