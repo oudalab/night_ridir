@@ -31,6 +31,7 @@ class SynonymizeArAPI(Resource):
         word = re.sub(" ", "_", word)
         word_combo = [word] #[word_upper, word_title, word_lower]
         results_list = []
+        results_dict={}
         for w in word_combo:
             try:
                 results = prebuilt.most_similar(positive=[w], topn = match_n)
@@ -48,12 +49,12 @@ class SynonymizeArAPI(Resource):
         if len(words) == 1:
             word = words[0]
             word = re.sub(" ", "_", word)
-            syns = self.get_synonyms(word)
+            syns = self.get_synonyms_ar(word)
         if len(words) == 2:
             word_list = [re.sub(" ", "_", w) for w in words]
             syns = []
             for n, w in enumerate(word_list):
-                syns.append(self.get_synonyms(w, match_n = 4))
+                syns.append(self.get_synonyms_ar(w, match_n = 5))
             t = [zip(x, syns[1]) for x in itertools.permutations(syns[0], len(syns[1]))]
             x = []
             for i in t:

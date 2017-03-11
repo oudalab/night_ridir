@@ -68,7 +68,7 @@ It returns word2vec 'synonyms' of the term in the form '["REPORTER","INTERVIEWER
             word_list = [re.sub(" ", "_", w) for w in words]
             syns = []
             for n, w in enumerate(word_list):
-                syns.append(self.get_synonyms(w, match_n = 4))
+                syns.append(self.get_synonyms(w, match_n = 5))
             t = [zip(x, syns[1]) for x in itertools.permutations(syns[0], len(syns[1]))]
             x = []
             for i in t:
